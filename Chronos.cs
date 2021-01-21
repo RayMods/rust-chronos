@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins {
   [Info("Chronos", "RayMods", "0.1.0")]
+  [Description("Provides simple day/night cycle customization.")]
   class Chronos : CovalencePlugin {
     private AnimationCurve _defaultTimeCurve;
     private float _defaultTotalDayLength;
