@@ -2,7 +2,7 @@
 
 "**Chronos** is the personification of time in Greek mythology."
 
-With **Chronos**, become the God of time for your Rust server. Simply set a duration for day and night, and the day/night cycle will be adjusted to match using the same curve system used by Vanilla Rust.
+With **Chronos**, become the god of time for your Rust server. Simply set a duration for day and night, and the day/night cycle will be adjusted to match using the same curve system used by Vanilla Rust.
 
 ## Configuration
 ```
