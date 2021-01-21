@@ -2,20 +2,26 @@ using System;
 using System.Collections.Generic;
 using Oxide.Core.Libraries.Covalence;
 using UnityEngine;
+
 namespace Oxide.Plugins {
-  [Info("Chronos", "RayMods", "0.0.0")]
+  [Info("Chronos", "RayMods", "0.1.0")]
   class Chronos : CovalencePlugin {
     private AnimationCurve _defaultTimeCurve;
     private float _defaultTotalDayLength;
-
-    private int DAY_LENGTH = 30;  // minutes
-    private int NIGHT_LENGTH = 5;  // minutes
-
-    private TOD_Time _timeCtrl;
     private int _totalDayLength;
+    private PluginConfig _config;
+    private TOD_Time _timeCtrl;
+
+    private void Init() {
+      _config = Config.ReadObject<PluginConfig>();
+      _totalDayLength = _config.DAY_LENGTH + _config.NIGHT_LENGTH;
+    }
+
+    protected override void LoadDefaultConfig() {
+      Config.WriteObject(GetDefaultConfig(), true);
+    }
 
     private void Loaded() {
-      _totalDayLength = DAY_LENGTH + NIGHT_LENGTH;
       LoadTimeController();
     }
 
@@ -42,7 +48,7 @@ namespace Oxide.Plugins {
     }
 
     private void SetTimeConfig() {
-      int nightSpan = 24 * NIGHT_LENGTH / DAY_LENGTH;
+      int nightSpan = 24 * _config.NIGHT_LENGTH / _config.DAY_LENGTH;
       AnimationCurve newTimeCurve = new AnimationCurve(
         new Keyframe(0, 0),
         new Keyframe(nightSpan / 2, 9),
@@ -53,6 +59,18 @@ namespace Oxide.Plugins {
       _timeCtrl.DayLengthInMinutes = _totalDayLength;
       _timeCtrl.TimeCurve = newTimeCurve;
       _timeCtrl.RefreshTimeCurve();
+    }
+
+    private PluginConfig GetDefaultConfig() {
+      return new PluginConfig {
+        DAY_LENGTH = 45,
+        NIGHT_LENGTH = 15,
+      };
+    }
+
+    private class PluginConfig {
+      public int DAY_LENGTH;
+      public int NIGHT_LENGTH;
     }
   }
 }
